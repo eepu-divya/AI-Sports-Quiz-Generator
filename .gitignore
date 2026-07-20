@@ -33,3 +33,5 @@ chroma_db/
 
 # pytest
 .pytest_cache/
+
+quiz_result.pdf
