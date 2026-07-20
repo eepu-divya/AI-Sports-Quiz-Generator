@@ -1,15 +1,23 @@
 [
   {
     "sport": "Cricket",
-    "fact": "The first official Test match was played between Australia and England in 1877 at Melbourne Cricket Ground."
+    "fact": "The first official Test match was played between Australia and England in 1877."
   },
   {
     "sport": "Cricket",
-    "fact": "India won the ICC Cricket World Cup in 1983 and 2011."
+    "fact": "Sachin Tendulkar is known as the Master Blaster and scored 100 international centuries."
+  },
+  {
+    "sport": "Cricket",
+    "fact": "The ICC Cricket World Cup is held every four years."
+  },
+  {
+    "sport": "Cricket",
+    "fact": "A cricket team consists of 11 players."
   },
   {
     "sport": "Football",
-    "fact": "The FIFA World Cup was first held in Uruguay in 1930."
+    "fact": "The first FIFA World Cup was held in Uruguay in 1930."
   },
   {
     "sport": "Football",
@@ -20,12 +28,8 @@
     "fact": "Lionel Messi captained Argentina to win the 2022 FIFA World Cup."
   },
   {
-    "sport": "Badminton",
-    "fact": "India won its first Thomas Cup title in 2022."
-  },
-  {
-    "sport": "Badminton",
-    "fact": "P. V. Sindhu won a silver medal at the 2016 Olympics."
+    "sport": "Football",
+    "fact": "A football match consists of two halves of 45 minutes each."
   },
   {
     "sport": "Tennis",
@@ -33,6 +37,142 @@
   },
   {
     "sport": "Tennis",
-    "fact": "Novak Djokovic has won multiple Grand Slam titles."
+    "fact": "Roger Federer won 20 Grand Slam singles titles."
+  },
+  {
+    "sport": "Tennis",
+    "fact": "Rafael Nadal is known as the King of Clay."
+  },
+  {
+    "sport": "Tennis",
+    "fact": "A Grand Slam consists of the Australian Open, French Open, Wimbledon and US Open."
+  },
+  {
+    "sport": "Badminton",
+    "fact": "P. V. Sindhu won India's first Olympic silver medal in badminton."
+  },
+  {
+    "sport": "Badminton",
+    "fact": "The shuttlecock can travel over 400 km/h in professional badminton."
+  },
+  {
+    "sport": "Badminton",
+    "fact": "Lin Dan won two Olympic gold medals."
+  },
+  {
+    "sport": "Badminton",
+    "fact": "A badminton match is usually played as the best of three games."
+  },
+  {
+    "sport": "Basketball",
+    "fact": "Basketball was invented by Dr. James Naismith in 1891."
+  },
+  {
+    "sport": "Basketball",
+    "fact": "An NBA team has five players on the court."
+  },
+  {
+    "sport": "Basketball",
+    "fact": "Michael Jordan won six NBA championships with the Chicago Bulls."
+  },
+  {
+    "sport": "Basketball",
+    "fact": "A standard basketball hoop is 10 feet above the ground."
+  },
+  {
+    "sport": "Volleyball",
+    "fact": "Volleyball was invented by William G. Morgan in 1895."
+  },
+  {
+    "sport": "Volleyball",
+    "fact": "Each volleyball team has six players on the court."
+  },
+  {
+    "sport": "Volleyball",
+    "fact": "A volleyball match is usually played as the best of five sets."
+  },
+  {
+    "sport": "Volleyball",
+    "fact": "The libero is a defensive specialist."
+  },
+  {
+    "sport": "Hockey",
+    "fact": "India has won eight Olympic gold medals in men's hockey."
+  },
+  {
+    "sport": "Hockey",
+    "fact": "A hockey team has eleven players."
+  },
+  {
+    "sport": "Hockey",
+    "fact": "Dhyan Chand is regarded as one of the greatest hockey players."
+  },
+  {
+    "sport": "Hockey",
+    "fact": "The Hockey World Cup is organized by the International Hockey Federation."
+  },
+  {
+    "sport": "Chess",
+    "fact": "Chess originated in India."
+  },
+  {
+    "sport": "Chess",
+    "fact": "Viswanathan Anand was India's first Grandmaster."
+  },
+  {
+    "sport": "Chess",
+    "fact": "The objective in chess is to checkmate the opponent's king."
+  },
+  {
+    "sport": "Chess",
+    "fact": "There are 64 squares on a chessboard."
+  },
+  {
+    "sport": "Kabaddi",
+    "fact": "Kabaddi originated in India."
+  },
+  {
+    "sport": "Kabaddi",
+    "fact": "The Pro Kabaddi League started in 2014."
+  },
+  {
+    "sport": "Kabaddi",
+    "fact": "Each kabaddi team has seven players."
+  },
+  {
+    "sport": "Kabaddi",
+    "fact": "A raid must be completed before the raider runs out of breath."
+  },
+  {
+    "sport": "Formula 1",
+    "fact": "The Formula One World Championship began in 1950."
+  },
+  {
+    "sport": "Formula 1",
+    "fact": "Lewis Hamilton has won seven Formula One World Championships."
+  },
+  {
+    "sport": "Formula 1",
+    "fact": "Max Verstappen won the 2023 Formula One World Championship."
+  },
+  {
+    "sport": "Formula 1",
+    "fact": "Monaco Grand Prix is one of the most prestigious Formula One races."
+  },
+  {
+    "sport": "Athletics",
+    "fact": "Usain Bolt holds the men's 100m world record of 9.58 seconds."
+  },
+  {
+    "sport": "Athletics",
+    "fact": "The Olympic Games are held every four years."
+  },
+  {
+    "sport": "Athletics",
+    "fact": "The marathon race covers 42.195 kilometers."
+  },
+  {
+    "sport": "Athletics",
+    "fact": "Neeraj Chopra won India's first Olympic gold medal in athletics."
   }
 ]

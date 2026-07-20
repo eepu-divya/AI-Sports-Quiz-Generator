@@ -18,6 +18,9 @@ collection = client.get_or_create_collection(
     embedding_function=embedding_function
 )
 
+if collection.count() == 0:
+    print("ChromaDB is empty. Populating...")
+    collection = populate_database()
 
 def load_data():
     """Load sports facts from JSON file."""
@@ -49,9 +52,12 @@ def populate_database():
             metadatas=[{"sport": item["sport"]}]
         )
 
+    global collection
+    collection = new_collection
+
     print("Database created successfully!")
 
-    return new_collection
+    return collection
 
 def search_facts(query, sport=None, n_results=5):
     """
