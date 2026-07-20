@@ -274,147 +274,147 @@ if page == "Quiz":
                         st.info(q["explanation"])
                         st.divider()
 
-percentage = calculate_percentage(score, total)
+                    percentage = calculate_percentage(score, total)
+                    
+                    st.success(f"""
+                    ## Quiz Completed!
+                    
+                    **Sport:** {sport}
+                    
+                    **Difficulty:** {difficulty}
+                    
+                    **Score:** {score}/{total}
+                    
+                    **Percentage:** {percentage:.0f}%
+                    """)
 
-st.success(f"""
-## Quiz Completed!
-
-**Sport:** {sport}
-
-**Difficulty:** {difficulty}
-
-**Score:** {score}/{total}
-
-**Percentage:** {percentage:.0f}%
-""")
-
-if not st.session_state.saved:
-
-    save_attempt(
-        sport,
-        difficulty,
-        score,
+    if not st.session_state.saved:
+    
+        save_attempt(
+            sport,
+            difficulty,
+            score,
+            total
+        )
+    
+        st.session_state.saved = True
+    
+    if percentage >= 80:
+        st.balloons()
+    
+    message = get_performance_message(percentage)
+    
+    if percentage >= 80:
+        st.success(message)
+    
+    elif percentage >= 60:
+        st.info(message)
+    
+    else:
+        st.warning(message)
+    
+    st.sidebar.metric(
+        "Questions",
         total
     )
-
-    st.session_state.saved = True
-
-if percentage >= 80:
-    st.balloons()
-
-message = get_performance_message(percentage)
-
-if percentage >= 80:
-    st.success(message)
-
-elif percentage >= 60:
-    st.info(message)
-
-else:
-    st.warning(message)
-
-st.sidebar.metric(
-    "Questions",
-    total
-)
-
-st.sidebar.metric(
-    "Score",
-    f"{score}/{total}"
-)
-
-st.sidebar.metric(
-    "Percentage",
-    f"{percentage:.0f}%"
-)
-
-st.markdown(
-    f"""
-    <div class="score-card">
-        Final Score<br>
-        {score}/{total}<br>
-        ({percentage:.0f}%)
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-
-
-
-st.subheader(" Quiz Analytics")
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.metric("Questions", total)
-
-with col2:
-    st.metric("Correct", score)
-
-with col3:
-    st.metric("Wrong", total - score)
-
-st.progress(score / total)
-
-st.divider()
-
-if page == "History":
-
-    st.header("Quiz History")
-
-    history = load_history()
-
-    if history:
-
-        for item in reversed(history):
-
-            st.write(
-                f"{item['date']} | "
-                f"{item['sport']} | "
-                f"{item['difficulty']} | "
-                f"{item['score']}/{item['total']}"
+    
+    st.sidebar.metric(
+        "Score",
+        f"{score}/{total}"
+    )
+    
+    st.sidebar.metric(
+        "Percentage",
+        f"{percentage:.0f}%"
+    )
+    
+    st.markdown(
+        f"""
+        <div class="score-card">
+            Final Score<br>
+            {score}/{total}<br>
+            ({percentage:.0f}%)
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    
+    
+    
+    st.subheader(" Quiz Analytics")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Questions", total)
+    
+    with col2:
+        st.metric("Correct", score)
+    
+    with col3:
+        st.metric("Wrong", total - score)
+    
+    st.progress(score / total)
+    
+    st.divider()
+    
+    if page == "History":
+    
+        st.header("Quiz History")
+    
+        history = load_history()
+    
+        if history:
+    
+            for item in reversed(history):
+    
+                st.write(
+                    f"{item['date']} | "
+                    f"{item['sport']} | "
+                    f"{item['difficulty']} | "
+                    f"{item['score']}/{item['total']}"
+                )
+    
+        else:
+    
+            st.info("No quiz history available.")  
+    
+    if page == "Leaderboard":
+    
+        st.header("Leaderboard")
+    
+        history = load_history()
+    
+        if history:
+    
+            history.sort(
+                key=lambda x: x["score"] / x["total"],
+                reverse=True
             )
-
-    else:
-
-        st.info("No quiz history available.")  
-
-if page == "Leaderboard":
-
-    st.header("Leaderboard")
-
-    history = load_history()
-
-    if history:
-
-        history.sort(
-            key=lambda x: x["score"] / x["total"],
-            reverse=True
-        )
-
-        leaderboard = []
-
-        for item in history:
-
-            leaderboard.append(
-                {
-                    "Sport": item["sport"],
-                    "Difficulty": item["difficulty"],
-                    "Score": f"{item['score']}/{item['total']}",
-                    "Percentage": f"{item['score']/item['total']*100:.0f}%"
-                }
+    
+            leaderboard = []
+    
+            for item in history:
+    
+                leaderboard.append(
+                    {
+                        "Sport": item["sport"],
+                        "Difficulty": item["difficulty"],
+                        "Score": f"{item['score']}/{item['total']}",
+                        "Percentage": f"{item['score']/item['total']*100:.0f}%"
+                    }
+                )
+    
+            st.dataframe(
+                leaderboard,
+                use_container_width=True
             )
-
-        st.dataframe(
-            leaderboard,
-            use_container_width=True
-        )
-
-    else:
-
-        st.info("No leaderboard data yet.")  
-
-
+    
+        else:
+    
+            st.info("No leaderboard data yet.")  
+    
+    
 st.divider()
 
 st.markdown(
