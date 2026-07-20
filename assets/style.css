@@ -1,0 +1,40 @@
+/* Main App */
+.stApp {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4ecfb 100%);
+}
+
+/* Title */
+.main-title {
+    text-align: center;
+    font-size: 42px;
+    font-weight: bold;
+    color: #1E3A8A;
+    margin-bottom: 10px;
+}
+
+/* Subtitle */
+.sub-title {
+    text-align: center;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* Quiz Card */
+.quiz-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 5px 20px rgba(0,0,0,0.12);
+    margin-bottom: 20px;
+}
+
+/* Score Card */
+.score-card {
+    background: #DCFCE7;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #166534;
+}
