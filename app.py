@@ -1,8 +1,6 @@
 import streamlit as st
 from src.generator import generate_quiz
-from src.pdf_generator import create_pdf
 from src.history import save_attempt, load_history
-import matplotlib.pyplot as plt
 from streamlit_autorefresh import st_autorefresh
 from src.utils import (
     calculate_percentage,
@@ -122,6 +120,9 @@ if "start_time" not in st.session_state:
 if "submitted" not in st.session_state:
     st.session_state.submitted = False
 
+if "saved" not in st.session_state:
+    st.session_state.saved = False
+
 if page == "Quiz":
 
 # ---------- Sidebar ----------
@@ -129,7 +130,19 @@ if page == "Quiz":
 
     sport = st.sidebar.selectbox(
         "Select Sport",
-        ["Cricket", "Football", "Badminton", "Tennis"]
+        [
+            "Cricket",
+            "Football",
+            "Badminton",
+            "Tennis",
+            "Basketball",
+            "Volleyball",
+            "Hockey",
+            "Kabaddi",
+            "Chess",
+            "Formula 1",
+            "Athletics"
+        ]
    )
 
     num_questions = st.sidebar.slider(
@@ -155,8 +168,10 @@ if page == "Quiz":
         st.session_state.answers = {}
         st.session_state.start_time = time.time()
         st.session_state.submitted = False
+        st.session_state.saved = False
+        st.session_state.quiz = None
 
-        with st.spinner("Generating Quiz..."):
+        with st.spinner("AI is generating your quiz..."):
 
             st.session_state.quiz = generate_quiz(
                 sport,
@@ -164,10 +179,14 @@ if page == "Quiz":
                 difficulty
             )
 
+            if not st.session_state.quiz:
+                st.error("Quiz generation failed.")
+                st.stop()
+
     # ---------- Display Quiz ----------
     if st.session_state.quiz:
 
-        st_autorefresh(interval=1000, key="timer")
+        st_autorefresh(interval=1000, limit=300, key="timer")
         total = len(st.session_state.quiz)
         current = st.session_state.current_question
 
@@ -255,104 +274,93 @@ if page == "Quiz":
                         st.info(q["explanation"])
                         st.divider()
 
-                    percentage = calculate_percentage(score, total)
+percentage = calculate_percentage(score, total)
 
-                    correct = score
-                    wrong = total - score
+st.success(f"""
+## Quiz Completed!
 
-                    fig, ax = plt.subplots()
+**Sport:** {sport}
 
-                    ax.pie(
-                        [correct, wrong],
-                        labels=["Correct", "Wrong"],
-                        autopct="%1.1f%%"
-                    )
+**Difficulty:** {difficulty}
 
-                    st.pyplot(fig)
+**Score:** {score}/{total}
 
-                    save_attempt(
-                        sport,
-                        difficulty,
-                        score,
-                        total
-                    )
+**Percentage:** {percentage:.0f}%
+""")
 
-                    if percentage >= 80:
-                        st.balloons()
+if not st.session_state.saved:
 
-                    message = get_performance_message(percentage)
+    save_attempt(
+        sport,
+        difficulty,
+        score,
+        total
+    )
 
-                    if percentage >= 80:
-                        st.success(message)
+    st.session_state.saved = True
 
-                    elif percentage >= 60:
-                        st.info(message)
+if percentage >= 80:
+    st.balloons()
 
-                    else:
-                        st.warning(message)
+message = get_performance_message(percentage)
 
-                    st.sidebar.metric(
-                        "Questions",
-                        total
-                    )
+if percentage >= 80:
+    st.success(message)
 
-                    st.sidebar.metric(
-                        "Score",
-                        f"{score}/{total}"
-                    )
+elif percentage >= 60:
+    st.info(message)
 
-                    st.sidebar.metric(
-                        "Percentage",
-                        f"{percentage:.0f}%"
-                )
+else:
+    st.warning(message)
 
-                    st.markdown(
-                        f"""
-                        <div class="score-card">
-                            Final Score<br>
-                            {score}/{total}<br>
-                            ({percentage:.0f}%)
-                        </div>
-                        """,
-                        unsafe_allow_html=True,
-                )
+st.sidebar.metric(
+    "Questions",
+    total
+)
 
-                    pdf_file = create_pdf(
-                        st.session_state.quiz,
-                        st.session_state.answers,
-                        score
-                    )
+st.sidebar.metric(
+    "Score",
+    f"{score}/{total}"
+)
 
-                    with open(pdf_file, "rb") as file:
+st.sidebar.metric(
+    "Percentage",
+    f"{percentage:.0f}%"
+)
 
-                        st.download_button(
-                            "Download Result",
-                            data=file,
-                            file_name="quiz_result.pdf",
-                            mime="application/pdf",
-                            key="download_pdf"
-                        )
+st.markdown(
+    f"""
+    <div class="score-card">
+        Final Score<br>
+        {score}/{total}<br>
+        ({percentage:.0f}%)
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
-                    st.subheader(" Quiz Analytics")
 
-                    col1, col2, col3 = st.columns(3)
 
-                    with col1:
-                        st.metric("Questions", total)
+st.subheader(" Quiz Analytics")
 
-                    with col2:
-                        st.metric("Correct", score)
+col1, col2, col3 = st.columns(3)
 
-                    with col3:
-                        st.metric("Wrong", total - score)
+with col1:
+    st.metric("Questions", total)
 
-                    st.progress(score / total)
+with col2:
+    st.metric("Correct", score)
 
-                    st.divider()
+with col3:
+    st.metric("Wrong", total - score)
 
-if page == "📜 History":
+st.progress(score / total)
 
-    st.header("📜 Quiz History")
+st.divider()
+
+if page == "History":
+
+    st.header("Quiz History")
 
     history = load_history()
 
@@ -406,33 +414,15 @@ if page == "Leaderboard":
 
         st.info("No leaderboard data yet.")  
 
+
 st.divider()
 
-st.subheader("📈 Performance Chart")
-
-history = load_history()
-
-if history:
-
-    scores = [
-        item["score"] / item["total"] * 100
-        for item in history
-    ]
-
-    attempts = list(range(1, len(scores) + 1))
-
-    fig, ax = plt.subplots(figsize=(8,4))
-
-    ax.plot(
-        attempts,
-        scores,
-        marker="o"
-    )
-
-    ax.set_xlabel("Quiz Attempt")
-    ax.set_ylabel("Percentage")
-    ax.set_title("Performance Over Time")
-
-    st.pyplot(fig)
-
+st.markdown(
+    """
+    <div style="text-align:center; color:gray;">
+        AI Sports Quiz Generator • Built with Streamlit, Gemini AI & ChromaDB
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
