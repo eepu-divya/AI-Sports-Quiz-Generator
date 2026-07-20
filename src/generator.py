@@ -25,7 +25,10 @@ def generate_quiz(topic, num_questions=3, difficulty="Medium"):
         context = "\n".join(documents[0])
     else:
         print("No documents found in ChromaDB.")
-        context = f"General knowledge about {topic}"
+        context = f"""
+        General knowledge about {topic}.
+        Create factual sports quiz questions.
+        """
 
     # -----------------------------
     # Build Prompt

@@ -9,35 +9,25 @@ embedding_function = SentenceTransformerEmbeddingFunction(
     model_name="all-MiniLM-L6-v2"
 )
 
-# Create Chroma client
+# Chroma client
 client = chromadb.PersistentClient(path=CHROMA_DIR)
 
-# Create collection
-collection = client.get_or_create_collection(
-    name="sports_facts",
-    embedding_function=embedding_function
-)
-
-if collection.count() == 0:
-    print("ChromaDB is empty. Populating...")
-    collection = populate_database()
 
 def load_data():
-    """Load sports facts from JSON file."""
-
+    """Load sports facts from JSON."""
     with open(f"{DATA_DIR}/sports_facts.json", "r", encoding="utf-8") as file:
         return json.load(file)
 
 
 def populate_database():
-    """Insert facts into ChromaDB."""
+    """Populate ChromaDB with sports facts."""
 
     data = load_data()
 
-    # Remove old data
+    # Delete old collection if it exists
     try:
         client.delete_collection("sports_facts")
-    except:
+    except Exception:
         pass
 
     new_collection = client.get_or_create_collection(
@@ -52,17 +42,25 @@ def populate_database():
             metadatas=[{"sport": item["sport"]}]
         )
 
-    global collection
-    collection = new_collection
-
     print("Database created successfully!")
 
-    return collection
+    return new_collection
+
+
+# Create or load collection
+collection = client.get_or_create_collection(
+    name="sports_facts",
+    embedding_function=embedding_function
+)
+
+# Populate automatically if empty
+if collection.count() == 0:
+    print("ChromaDB is empty. Populating...")
+    collection = populate_database()
+
 
 def search_facts(query, sport=None, n_results=5):
-    """
-    Search the vector database for relevant facts.
-    """
+    """Search sports facts."""
 
     if sport:
         results = collection.query(
